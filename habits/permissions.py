@@ -11,6 +11,6 @@ class IsModerator(BasePermission):
 
 class IsOwner(BasePermission):
     def has_permission(self, request, view, obj):
-        if obj.owner == request.user:
+        if obj.user == request.user:
             return True
         return False
