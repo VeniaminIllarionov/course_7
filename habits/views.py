@@ -1,37 +1,37 @@
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from habits.models import Habits
-from habits.permissions import IsModerator, IsOwner
+from habits.permissions import IsOwner
 from habits.serializers import HabitsSerializer
 
 
 class HabitCreate(generics.CreateAPIView):
     serializer_class = HabitsSerializer
-    permission_classes = [IsAuthenticated, ~IsModerator, ]
+    permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
-        new_lesson = serializer.save()
-        new_lesson.owner = self.request.user
-        new_lesson.save()
+        new_habits = serializer.save()
+        new_habits.user = self.request.user
+        new_habits.save()
 
 
 class HabitList(generics.ListAPIView):
     queryset = Habits.objects.all()
     serializer_class = HabitsSerializer
-    permission_classes = [IsOwner | IsModerator, ]
+    permission_classes = [IsAuthenticated, IsOwner]
 
 
 class HabitRetrieve(generics.RetrieveAPIView):
     queryset = Habits.objects.all()
     serializer_class = HabitsSerializer
-    permission_classes = [IsOwner | IsModerator, ]
+    permission_classes = [IsAuthenticated, IsOwner]
 
 
 class HabitUpdate(generics.UpdateAPIView):
     queryset = Habits.objects.all()
     serializer_class = HabitsSerializer
-    permission_classes = [IsOwner | IsModerator, ]
+    permission_classes = [IsAuthenticated, IsOwner]
 
     def perform_update(self, serializer):
         update_lesson = serializer.save()
@@ -41,4 +41,10 @@ class HabitUpdate(generics.UpdateAPIView):
 
 class HabitDelete(generics.DestroyAPIView):
     queryset = Habits.objects.all()
-    permission_classes = [IsOwner, ~IsModerator]
+    permission_classes = [IsAuthenticated, IsOwner]
+
+
+class PublicHabitsAPIView(generics.ListAPIView):
+    queryset = Habits.objects.filter(is_public=True)
+    serializer_class = HabitsSerializer
+    permission_classes = [AllowAny]
