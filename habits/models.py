@@ -12,7 +12,7 @@ class Habits(models.Model):
     period_variants = (
         ('everyday', 'Ежедневно'),
         ('every_week', 'Еженедельно'),
-        ('every_mounth', 'Ежемесячно'),
+        ('every_month', 'Ежемесячно'),
     )
     publish_variants = (
         (True, 'Опубликовано'),

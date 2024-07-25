@@ -6,12 +6,12 @@ from users.serializers import UserSerializer
 
 
 class UserList(generics.ListAPIView):
+    permission_classes = [IsAdminUser]
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
 
 class UserUpdate(generics.UpdateAPIView):
-    permission_classes = [IsAuthenticated]
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
