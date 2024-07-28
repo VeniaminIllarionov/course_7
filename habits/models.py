@@ -37,7 +37,7 @@ class Habits(models.Model):
 
     time_completed = models.SmallIntegerField(verbose_name='Время на выполнение')
 
-    is_publish = models.CharField(max_length=80, choices=publish_variants, default=True,
+    is_publish = models.CharField(max_length=80, choices=publish_variants, default=False,
                                   verbose_name='Признак публичности')
 
     def __str__(self):
