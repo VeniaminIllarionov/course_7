@@ -1,9 +1,5 @@
 from rest_framework import serializers
 
-#Нельзя выполнять привычку реже, чем 1 раз в 7 дней.
-#Нельзя не выполнять привычку более 7 дней. Например, привычка может повторяться раз в неделю, но не раз в 2 недели.
-#За одну неделю необходимо выполнить привычку хотя бы один раз.
-
 
 class HabitsValidation:
     """Валидатор на ссылку к видео"""
@@ -25,6 +21,8 @@ class HabitsValidation:
             if value['related_habit']:
                 if not value['related_habit'].sign_habit:
                     raise serializers.ValidationError('Связанные привычки = приятные привычки')
+                if value['related_habit'].periodicity > 7:
+                    raise serializers.ValidationError('Нельзя выполнять привычку реже, чем 1 раз в 7 дней')
 
 
 
