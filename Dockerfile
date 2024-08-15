@@ -2,10 +2,9 @@ FROM python:3
 
 WORKDIR /app
 
-COPY ./requirement.txt /app/
+COPY ./requirement.txt .
 
 RUN pip install -r requirement.txt
 
-COPY . /app/
+COPY . .
 
-CMD ["sh", "-c", "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
